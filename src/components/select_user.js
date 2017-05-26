@@ -7,11 +7,24 @@ class SelectUser extends Component {
     this.props.fetchUsers()
   }
 
+  renderUsers() {
+    return this.props.users.map(user => {
+      console.log("user": user)
+      return (
+        <li key={user.username}>{user.username}</li>
+      )
+    })
+  }
+
   render() {
     return (
-      <div>Hello from select user!</div>
+      <ul>{this.renderUsers()}</ul>
     )
   }
 }
 
-export default connect(null, { fetchUsers })(SelectUser)
+function mapStateToProps(state) {
+  return { users: state.users.all }
+}
+
+export default connect(mapStateToProps, { fetchUsers })(SelectUser)
