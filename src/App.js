@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UsersIndex from './components/users_index'
+import UsersDropdown from './components/users_dropdown'
 
 class App extends Component {
   render() {
@@ -8,7 +8,7 @@ class App extends Component {
         <div className="App-header">
           <h2>App-rove me!</h2>
         </div>
-        <UsersIndex />
+        <UsersDropdown />
       </div>
     );
   }
