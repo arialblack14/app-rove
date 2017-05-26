@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { fetchUsers } from '../actions/index'
 
 class SelectUser extends Component {
@@ -15,8 +14,4 @@ class SelectUser extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchUsers }, dispatch)
-}
-
-export default connect(null, mapDispatchToProps)(SelectUser)
+export default connect(null, { fetchUsers })(SelectUser)
