@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SelectUser from './components/select_user'
+import UsersIndex from './components/users_index'
 
 class App extends Component {
   render() {
@@ -8,7 +8,7 @@ class App extends Component {
         <div className="App-header">
           <h2>App-rove me!</h2>
         </div>
-        <SelectUser />
+        <UsersIndex />
       </div>
     );
   }
