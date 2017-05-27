@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import UsersReducer from './reducer_users'
-import MonthsReducer from './reducer_months'
+import MonthReducer from './reducer_months'
 
 const rootReducer = combineReducers({
   users: UsersReducer,
-  months: MonthsReducer
+  month: MonthReducer
 })
 
 export default rootReducer
