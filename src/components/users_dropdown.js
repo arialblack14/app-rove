@@ -7,7 +7,7 @@ class UsersDropdown extends Component {
     super(props);
 
     this.state = {
-      value: ''
+      value: this.props.user || '' // fetch user or set to ''
     }
   }
 
