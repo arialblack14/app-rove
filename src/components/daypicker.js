@@ -1,41 +1,57 @@
 import React, { Component } from 'react'
 import DayPicker from 'react-day-picker'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import { fetchUser, fetchMonthWork } from '../actions/index'
 
 import 'react-day-picker/lib/style.css'
 
 class HoursPerMonth extends Component {
 
-  shouldComponentUpdate(nextProps) {
-    const selectedUser = this.props.selectedUser !== nextProps.selectedUser
-    const month = this.props.month !== nextProps.month
-    return selectedUser || month
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      daySelected: null
+    }
+  }
+
+  getWeeksPerMonth(month, user) {
+    return this.props.fetchMonthWork(month, user)
+      .then(res => {
+        return res.payload.data.data.weeks
+        // .map(week => {
+        //   week.days_in_week.map(dayOfWeek => console.log(dayOfWeek.hours))
+        // })
+      })
+  }
+
+  handleWeekClick(week, days, e) {
+    e.target.blur();
+    if (week === this.state.selectedWeek) {
+      this.setState({
+        selectedWeek: undefined,
+        selectedDays: undefined,
+      })
+      return
+    }
+    this.setState({
+      selectedDays: days,
+      selectedWeek: week + 1, // add 1 becuse of aurity different counting system
+    });
   }
 
   showHours() {
-    return this.props.fetchMonthWork(5, 2)
-      .then(res => {
-        console.log("hours per week: ", res.payload.data)
-        _.mapKeys(res.payload.data.weeks.week_number, 'week_number')
-      })
+
   }
 
   renderDay(day) {
     const date = day.getDate()
-    const hoursWorked = () => this.showHours()
 
     return (
       <div>
         {date}
         <div className="Hours-Worked-List">
-          {hoursWorked[date] &&
-            hoursWorked[date].map((worked, i) => (
-              <div key={i}>
-                {worked} ({worked})
-              </div>
-            ))}
+          {this.showHours()}
         </div>
       </div>
     )
@@ -45,11 +61,20 @@ class HoursPerMonth extends Component {
     return (
       <div>
         <DayPicker
+          selectedDays={this.state.selectedDays}
+          onWeekClick={(week, days, e) => this.handleWeekClick(week, days, e)}
           canChangeMonth={true}
           className="HoursWorked"
-          renderDay={this.renderDay}
+          renderDay={(day) => this.renderDay(day)}
           showWeekNumbers
+          fixedWeeks
         />
+        <p>
+          Selected week:
+          {this.state.selectedWeek
+            ? this.state.selectedWeek
+            : '-'}
+        </p>
       </div>
     )
   }
