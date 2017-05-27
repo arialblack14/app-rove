@@ -16,11 +16,15 @@ class UsersDropdown extends Component {
   }
 
   handleChange(event) {
-    const selectedUser = this.props.fetchUser(event.target.value)
-
     this.setState({
-      value: selectedUser.id
+      value: event.target.value
     })
+  }
+
+  handleSubmit(event) {
+    const selectedUser = this.props.fetchUser(this.state.value)
+    console.log("User selected: ", this.state.value)
+    event.preventDefault();
   }
 
   renderUsers() {
@@ -33,13 +37,16 @@ class UsersDropdown extends Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit.bind(this)}>
         <label>
           Select user:
-            <select value={this.state.value} onChange={this.handleChange.bind(this)}>
+            <select
+            value={this.state.value}
+            onChange={this.handleChange.bind(this)}>
               {this.renderUsers()}
             </select>
         </label>
+        <input type="submit" value="Submit" />
       </form>
     )
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import UsersDropdown from './components/users_dropdown'
+import HoursPerMonth from './components/daypicker'
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
           <h2>App-rove me!</h2>
         </div>
         <UsersDropdown />
+        <HoursPerMonth />
       </div>
     );
   }
