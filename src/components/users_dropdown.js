@@ -22,9 +22,12 @@ class UsersDropdown extends Component {
   }
 
   handleSubmit(event) {
-    const selectedUser = this.props.fetchUser(this.state.value)
-    console.log("User selected: ", this.state.value)
-    event.preventDefault();
+    event.preventDefault()
+    this.props.fetchUser(this.state.value)
+      .then(res => {
+        console.log("id of selected user: ", res.payload.data.id)
+        console.log("selected user's name:", this.props.selectedUser.username)
+      })
   }
 
   renderUsers() {
@@ -55,7 +58,7 @@ class UsersDropdown extends Component {
 function mapStateToProps({ users }) {
   return {
     users: users.all,
-    user: users.user }
+    selectedUser: users.selectedUser }
 }
 
 export default connect(mapStateToProps, { fetchUsers, fetchUser })(UsersDropdown)

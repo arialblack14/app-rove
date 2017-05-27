@@ -1,13 +1,13 @@
 import { FETCH_USERS, FETCH_USER } from '../actions/index'
 
-const INITIAL_STATE = { all: [], user: null }
+const INITIAL_STATE = { all: [], selectedUser: null }
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case FETCH_USER:
       return {
         ...state,
-        user: action.payload.data
+        selectedUser: action.payload.data
       }
     case FETCH_USERS:
       return {
