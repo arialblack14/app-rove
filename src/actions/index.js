@@ -25,11 +25,11 @@ export function fetchUser(id) {
   }
 }
 
-export function fetchMonth(month_number, user_id) {
+export function fetchMonthWork(month_number, user_id) {
   const request = axios.get(`${MONTH_URL}/${month_number}/2017/${user_id}`)
 
   return {
-    type: FETCH_USER,
+    type: FETCH_MONTH,
     payload: request
   }
 }
