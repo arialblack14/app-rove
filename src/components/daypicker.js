@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import DayPicker from 'react-day-picker'
 import { connect } from 'react-redux'
-import { fetchUser, fetchMonthWork } from '../actions/index'
+import { fetchUsers, fetchUser, fetchMonthWork } from '../actions/index'
 
 import 'react-day-picker/lib/style.css'
 
@@ -11,37 +11,24 @@ class HoursPerMonth extends Component {
     super(props)
 
     this.state = {
-      daySelected: null
+      selectedDays: null,
+      selectedWeek: null
     }
-  }
-
-  getWeeksPerMonth(month, user) {
-    return this.props.fetchMonthWork(month, user)
-      .then(res => {
-        return res.payload.data.data.weeks
-        // .map(week => {
-        //   week.days_in_week.map(dayOfWeek => console.log(dayOfWeek.hours))
-        // })
-      })
   }
 
   handleWeekClick(week, days, e) {
     e.target.blur();
     if (week === this.state.selectedWeek) {
       this.setState({
-        selectedWeek: undefined,
-        selectedDays: undefined,
+        selectedWeek: null,
+        selectedDays: null,
       })
-      return
+    } else {
+      this.setState({
+        selectedDays: days,
+        selectedWeek: week + 1, // add 1 becuse of aurity different counting system
+      })
     }
-    this.setState({
-      selectedDays: days,
-      selectedWeek: week + 1, // add 1 becuse of aurity different counting system
-    });
-  }
-
-  showHours() {
-
   }
 
   renderDay(day) {
@@ -51,7 +38,7 @@ class HoursPerMonth extends Component {
       <div>
         {date}
         <div className="Hours-Worked-List">
-          {this.showHours()}
+
         </div>
       </div>
     )
@@ -61,6 +48,7 @@ class HoursPerMonth extends Component {
     return (
       <div>
         <DayPicker
+          initialMonth={new Date()}
           selectedDays={this.state.selectedDays}
           onWeekClick={(week, days, e) => this.handleWeekClick(week, days, e)}
           canChangeMonth={true}
@@ -80,11 +68,4 @@ class HoursPerMonth extends Component {
   }
 }
 
-function mapStateToProps({ users , month }) {
-  return {
-    selectedUser: users.selectedUser,
-    month: month.month
-  }
-}
-
-export default connect(mapStateToProps, { fetchUser, fetchMonthWork })(HoursPerMonth)
+export default connect(null, { fetchUser, fetchMonthWork })(HoursPerMonth)

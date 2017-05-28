@@ -4,7 +4,7 @@ import MonthReducer from './reducer_months'
 
 const rootReducer = combineReducers({
   users: UsersReducer,
-  month: MonthReducer
+  months: MonthReducer
 })
 
 export default rootReducer

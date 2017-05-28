@@ -7,7 +7,7 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_MONTH:
       return {
         ...state,
-        month: action.payload.data
+        monthSelected: action.payload.data
       }
     default:
       return state
