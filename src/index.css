@@ -19,10 +19,10 @@ button {
   margin: 1em;
 }
 
-.approve-button {
+#approve-button {
   background-color: #4CAF50; /* Green */
 }
 
-.reject-button {
+#reject-button {
   background-color: #ff0000;
 }

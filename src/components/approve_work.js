@@ -13,8 +13,8 @@ class ApproveWeek extends Component {
         { !(this.props.selectedUser && this.props.monthSelected) ?
           "Please select user / month" :
           <div>
-            <button class="approve-button" onClick={() => this.handleClick({ status: "approved" })}>Approve</button>
-            <button class="reject-button" onClick={() => this.handleClick({ status: "rejected" })}>Reject</button>
+            <button id="approve-button" onClick={() => this.handleClick({ status: "approved" })}>Approve</button>
+            <button id="reject-button" onClick={() => this.handleClick({ status: "rejected" })}>Reject</button>
           </div>
         }
       </div>
