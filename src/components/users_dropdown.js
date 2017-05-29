@@ -36,7 +36,7 @@ class UsersDropdown extends Component {
       })
       .then(() => {
         const date = new Date()
-        const month = (this.props.monthSelected ? this.props.monthSelected.getMonth() : date.getMonth()) + 1 // add 1 so that month is not 0-indexed
+        const month = (this.props.monthSelected ? this.props.monthSelected : date.getMonth()) + 1 // add 1 so that month is not 0-indexed
         const { selectedUser } = this.props
         const { id } = selectedUser
 

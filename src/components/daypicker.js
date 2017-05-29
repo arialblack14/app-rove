@@ -58,6 +58,8 @@ class HoursPerMonth extends Component {
   }
 
   getHoursPerDay(date) {
+    const checker = {}
+
     return this.props.weeksOfMonth.map(({week_number, days_in_week}) => {
       return days_in_week.map(({day_number, hours, id}) => {
         const result = { day_number, week_number, hours, id }
@@ -73,6 +75,7 @@ class HoursPerMonth extends Component {
         //   // we store day ids too so that we can check if the day has been added
         // }
         // {result.hours + 'h'} {result.week_number}
+        checker[day_number] = [week_number, id]
         const dayNumber = result.day_number
 
         if (date === result.day_number) {
