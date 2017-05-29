@@ -31,12 +31,32 @@ class HoursPerMonth extends Component {
   }
 
   getHoursPerDay(date) {
-    this.props.weeksOfMonth.map(({week_number, days_in_week}) => {
-      days_in_week.map(({day_number, hours}) => {
-        const result = { day_number, week_number, hours }
-        // console.log("result: ", result)
+    return this.props.weeksOfMonth.map(({week_number, days_in_week}) => {
+      return days_in_week.map(({day_number, hours, id}) => {
+        const result = { day_number, week_number, hours, id }
+        // const tempCheck = {}
+        // tempCheck[result.day_number] = [result.hours, result.id]
+        // // add day in tempCheck only when on current month - avoid e.g. 0h0h displayed
+        // if (!tempCheck.hasOwnProperty(result.day_number)) {
+        //   tempCheck[result.day_number] = [result.hours, result.id]
+        // } else {
+        //   tempCheck[result.day_number][1] !== result.id ?
+        //   tempCheck[result.day_number] = [result.hours, result.id] :
+        //   ''
+        //   // we store day ids too so that we can check if the day has been added
+        // }
+        // {result.hours + 'h'} {result.week_number}
+        const dayNumber = result.day_number
+
         if (date === result.day_number) {
-          console.log(result.hours + 'h')
+          return (
+            <span
+            className="hours-per-day"
+            id={dayNumber}
+            key={dayNumber}>
+              {result.hours + 'h'}
+            </span>
+          )
         }
       })
     })
@@ -68,6 +88,7 @@ class HoursPerMonth extends Component {
           className="HoursWorked"
           renderDay={(day) => this.renderDay(day)}
           showWeekNumbers
+          firstDayOfWeek={ 1 } // start week from Monday
         />
         <div>
           <p>
@@ -86,7 +107,7 @@ class HoursPerMonth extends Component {
   }
 }
 
-function mapStateToProps({ months }) {
+function mapStateToProps({ users, months }) {
   return {
     monthSelected: months.monthSelected,
     weeksOfMonth: months.weeksOfMonth
