@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import DayPicker from 'react-day-picker'
 import { connect } from 'react-redux'
-import { changeMonth, selectWeek } from '../actions/index'
+import {
+  changeMonth,
+  selectWeek,
+  fetchUser,
+  fetchMonthWork,
+  fetchWeeks
+} from '../actions/index'
 
 
 import 'react-day-picker/lib/style.css'
@@ -36,7 +42,19 @@ class HoursPerMonth extends Component {
   }
 
   handleMonthChange(month) {
-    return this.props.changeMonth(month)
+    month = month.getMonth() + 1
+    // if no user has been selected get first user
+    const id = this.props.selectedUser ? this.props.selectedUser.id : 1
+    this.props.fetchUser(id)
+      .then(res => {
+        console.log("id of selected user: ", this.props.selectedUser.id)
+        console.log("selected user's name:", this.props.selectedUser.username)
+      })
+
+    // update selected month
+    this.props.changeMonth(month)
+    // refetch hours worked for current month
+    this.props.fetchWeeks(month, id)
   }
 
   getHoursPerDay(date) {
@@ -113,12 +131,21 @@ class HoursPerMonth extends Component {
   }
 }
 
-function mapStateToProps({ months }) {
+function mapStateToProps({ months, users }) {
   return {
     monthSelected: months.monthSelected,
     weeksOfMonth: months.weeksOfMonth,
-    selectedWeekId: months.selectedWeekId
+    selectedWeekId: months.selectedWeekId,
+    selectedUser: users.selectedUser
   }
 }
 
-export default connect(mapStateToProps, { changeMonth,selectWeek })(HoursPerMonth)
+export default connect(
+  mapStateToProps,
+  {
+    changeMonth,
+    selectWeek,
+    fetchUser,
+    fetchMonthWork,
+    fetchWeeks
+  })(HoursPerMonth)

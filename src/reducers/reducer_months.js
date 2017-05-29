@@ -6,7 +6,7 @@ import {
   SELECT_WEEK
 } from '../actions/index'
 
-const INITIAL_STATE = { month: null, weeksOfMonth: [], status: null, week: null }
+const INITIAL_STATE = { monthSelected: null, weeksOfMonth: [], status: null, week: null }
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {

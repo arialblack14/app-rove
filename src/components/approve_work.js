@@ -10,8 +10,8 @@ class ApproveWeek extends Component {
   render() {
     return (
       <div>
-        { !(this.props.selectedUser && this.props.monthSelected) ?
-          <div className="notes">Please select user / month</div> :
+        { !(this.props.selectedUser && this.props.selectedWeekId) ?
+          <div className="notes">Please select user, month and week</div> :
           <div>
             <button id="approve-button" onClick={() => this.handleClick({ status: "approved" })}>Approve</button>
             <button id="reject-button" onClick={() => this.handleClick({ status: "rejected" })}>Reject</button>
