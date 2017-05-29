@@ -3,9 +3,10 @@ import axios from 'axios'
 export const FETCH_USERS = 'fetch_users'
 export const FETCH_USER = 'fetch_user'
 export const FETCH_MONTH = 'fetch_month'
+export const CHANGE_MONTH = 'change_month'
 export const FETCH_WEEKS = 'fetch_weeks'
-export const FETCH_HOURS = 'fetch_hours'
 export const APPROVE_WEEK = 'approve_week'
+export const SELECT_WEEK = 'select_week'
 
 const USERS_URL = `https://timesheet-staging-aurity.herokuapp.com/api/users`
 const MONTH_URL = `https://timesheet-staging-aurity.herokuapp.com/api/training/weeks`
@@ -48,6 +49,13 @@ export function fetchWeeks(month_number, user_id) {
   }
 }
 
+export function selectWeek(week_id) {
+  return {
+    type: SELECT_WEEK,
+    payload: week_id
+  }
+}
+
 export function approveWeek(week_id, user_id, status) {
   const request = axios.put(`${MONTH_URL}/${week_id}/users/${user_id}`, status)
     .then(res => res.data.data.weeks)
@@ -55,5 +63,12 @@ export function approveWeek(week_id, user_id, status) {
   return {
     type: APPROVE_WEEK,
     payload: request
+  }
+}
+
+export function changeMonth(month) {
+  return {
+    type: CHANGE_MONTH,
+    payload: month
   }
 }

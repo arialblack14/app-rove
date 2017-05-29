@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import DayPicker from 'react-day-picker'
 import { connect } from 'react-redux'
+import { changeMonth, selectWeek } from '../actions/index'
+
 
 import 'react-day-picker/lib/style.css'
 
@@ -28,6 +30,13 @@ class HoursPerMonth extends Component {
         selectedWeek: week + 1, // add 1 becuse of aurity different counting system
       })
     }
+
+    // get the week_id of the week clicked
+    this.props.selectWeek(week)
+  }
+
+  handleMonthChange(month) {
+    return this.props.changeMonth(month)
   }
 
   getHoursPerDay(date) {
@@ -84,6 +93,7 @@ class HoursPerMonth extends Component {
           initialMonth={new Date()}
           selectedDays={this.state.selectedDays}
           onWeekClick={(week, days, e) => this.handleWeekClick(week, days, e)}
+          onMonthChange={(month) => this.handleMonthChange(month)}
           canChangeMonth={true}
           className="HoursWorked"
           renderDay={(day) => this.renderDay(day)}
@@ -97,21 +107,18 @@ class HoursPerMonth extends Component {
               ? this.state.selectedWeek - 1
               : '-'}
           </p>
-          <div>
-            Notes:
-            <p>List of Approvers: {console.log("Approvers: ", this.props.monthSelected)}</p>
-          </div>
         </div>
       </div>
     )
   }
 }
 
-function mapStateToProps({ users, months }) {
+function mapStateToProps({ months }) {
   return {
     monthSelected: months.monthSelected,
-    weeksOfMonth: months.weeksOfMonth
+    weeksOfMonth: months.weeksOfMonth,
+    selectedWeekId: months.selectedWeekId
   }
 }
 
-export default connect(mapStateToProps, null)(HoursPerMonth)
+export default connect(mapStateToProps, { changeMonth,selectWeek })(HoursPerMonth)
