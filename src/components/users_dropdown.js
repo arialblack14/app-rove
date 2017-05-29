@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUsers, fetchUser, fetchMonthWork } from '../actions/index'
+import {
+  fetchUsers,
+  fetchUser,
+  fetchMonthWork,
+  fetchWeeks
+} from '../actions/index'
 
 class UsersDropdown extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: this.props.selectedUser || 1 // fetch user or set to ''
+      value: this.props.selectedUser || 1, // fetch user or set to 1
+      hoursPerDay: null
     }
   }
 
@@ -25,16 +31,21 @@ class UsersDropdown extends Component {
     event.preventDefault()
     this.props.fetchUser(this.state.value)
       .then(res => {
-        console.log("id of selected user: ", res.payload.data.id)
+        console.log("id of selected user: ", this.props.selectedUser.id)
         console.log("selected user's name:", this.props.selectedUser.username)
       })
       .then(() => {
         const date = new Date()
         const month = date.getMonth() + 1 // add 1 so that month is not 0-indexed
+        const { selectedUser } = this.props
+        const { id } = selectedUser
 
-        this.props.fetchMonthWork(month, this.props.selectedUser.id)
-          .then(res => console.log("work done in month: ", this.props.month, " is ", res.payload))
-      })
+        this.props.fetchMonthWork(month, id)
+          .then(res => console.log("Work done in month: ", this.props.monthSelected))
+
+        this.props.fetchWeeks(month, id)
+          .then(res => console.log("weeks: ", this.props.weeksOfMonth))
+        })
   }
 
   renderUsers() {
@@ -66,8 +77,16 @@ function mapStateToProps({ users, months }) {
   return {
     users: users.all,
     selectedUser: users.selectedUser,
-    monthSelected: months.monthSelected
+    monthSelected: months.monthSelected,
+    weeksOfMonth: months.weeksOfMonth
   }
 }
 
-export default connect(mapStateToProps, { fetchUsers, fetchUser, fetchMonthWork })(UsersDropdown)
+export default connect(
+  mapStateToProps, {
+    fetchUsers,
+    fetchUser,
+    fetchMonthWork,
+    fetchWeeks
+  }
+)(UsersDropdown)

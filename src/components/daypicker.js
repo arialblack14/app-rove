@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import DayPicker from 'react-day-picker'
 import { connect } from 'react-redux'
-import { fetchUsers, fetchUser, fetchMonthWork } from '../actions/index'
 
 import 'react-day-picker/lib/style.css'
 
@@ -31,6 +30,18 @@ class HoursPerMonth extends Component {
     }
   }
 
+  getHoursPerDay(date) {
+    this.props.weeksOfMonth.map(({week_number, days_in_week}) => {
+      days_in_week.map(({day_number, hours}) => {
+        const result = { day_number, week_number, hours }
+        // console.log("result: ", result)
+        if (date === result.day_number) {
+          console.log(result.hours + 'h')
+        }
+      })
+    })
+  }
+
   renderDay(day) {
     const date = day.getDate()
 
@@ -38,7 +49,9 @@ class HoursPerMonth extends Component {
       <div>
         {date}
         <div className="Hours-Worked-List">
-
+          {
+            this.getHoursPerDay(date)
+          }
         </div>
       </div>
     )
@@ -55,17 +68,29 @@ class HoursPerMonth extends Component {
           className="HoursWorked"
           renderDay={(day) => this.renderDay(day)}
           showWeekNumbers
-          fixedWeeks
         />
-        <p>
-          Selected week:
-          {this.state.selectedWeek
-            ? this.state.selectedWeek
-            : '-'}
-        </p>
+        <div>
+          <p>
+            Selected week:
+            {this.state.selectedWeek
+              ? this.state.selectedWeek - 1
+              : '-'}
+          </p>
+          <div>
+            Notes:
+            <p>List of Approvers: {console.log("Approvers: ", this.props.monthSelected)}</p>
+          </div>
+        </div>
       </div>
     )
   }
 }
 
-export default connect(null, { fetchUser, fetchMonthWork })(HoursPerMonth)
+function mapStateToProps({ months }) {
+  return {
+    monthSelected: months.monthSelected,
+    weeksOfMonth: months.weeksOfMonth
+  }
+}
+
+export default connect(mapStateToProps, null)(HoursPerMonth)
